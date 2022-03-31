@@ -1,0 +1,291 @@
+definitions:
+  model.Game:
+    properties:
+      appointment:
+        type: integer
+      data:
+        type: string
+      id:
+        type: integer
+      info:
+        type: string
+      name:
+        type: string
+      place:
+        type: string
+    type: object
+  model.Player:
+    properties:
+      avatar:
+        type: string
+      id:
+        type: integer
+      info:
+        type: string
+      name:
+        type: string
+      team_id:
+        type: integer
+    type: object
+  model.Team:
+    properties:
+      id:
+        type: integer
+      info:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+    type: object
+  model.UserAppoint:
+    properties:
+      appoint_game_name:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact: {}
+  description: swagger学习文档，这条非必须
+  title: 球赛管理系统
+  version: 最后版未完成
+paths:
+  /games:
+    get:
+      consumes:
+      - application/json
+      description: 查询all games信息并返回到客户端
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Game'
+            type: array
+      summary: 查询game
+      tags:
+      - game
+    post:
+      consumes:
+      - application/json
+      description: 接收game信息然后创建并返回到客户端反馈
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: new game创建成功
+          schema:
+            type: string
+        "500":
+          description: 'error": err.Error()}'
+          schema:
+            type: string
+      summary: 创建球赛
+      tags:
+      - game
+  /players:
+    post:
+      consumes:
+      - application/json
+      description: 接收players信息然后登记创建并返回到客户端反馈
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: new player创建成功
+          schema:
+            type: string
+        "500":
+          description: 'error": err.Error()}'
+          schema:
+            type: string
+      summary: 登记运动员
+      tags:
+      - player
+  /players/{playerid}:
+    get:
+      consumes:
+      - application/json
+      description: 查询指定id的player信息并返回到客户端
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Player'
+      summary: 查询player
+      tags:
+      - player
+  /teames:
+    post:
+      consumes:
+      - application/json
+      description: 接收teams信息然后登记创建并返回到客户端反馈
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: new team创建成功
+          schema:
+            type: string
+        "500":
+          description: 'error": err.Error()}'
+          schema:
+            type: string
+      summary: 登记队伍
+      tags:
+      - team
+  /teams/{playerid}:
+    put:
+      consumes:
+      - application/json
+      description: 更新修改运动员的team
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: player的newteamid修改成功
+          schema:
+            type: string
+      summary: 更新运动员的team信息
+      tags:
+      - player
+  /teams/{teamid}:
+    get:
+      consumes:
+      - application/json
+      description: 查询指定id的team信息并返回到客户端
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Team'
+      summary: 查询team
+      tags:
+      - team
+  /teams/{teamid}/{newinfo}:
+    put:
+      consumes:
+      - application/json
+      description: 更新team的info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 修改teaminfo成功
+          schema:
+            type: string
+        "500":
+          description: 获取newinfo错误
+          schema:
+            type: string
+      summary: 更新team的info
+      tags:
+      - team
+  /teams/{teamid}/{newlogo}:
+    put:
+      consumes:
+      - application/json
+      description: 更新team的logo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 修改teamlogo成功
+          schema:
+            type: string
+        "500":
+          description: 获取newlogo错误
+          schema:
+            type: string
+      summary: 更新team的logo
+      tags:
+      - team
+  /teams/{teamid}/{newname}:
+    put:
+      consumes:
+      - application/json
+      description: 更新team的name
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: player的newteamid修改成功
+          schema:
+            type: string
+      summary: 更新team的name
+      tags:
+      - team
+  /teams/{usename/{newrole}:
+    put:
+      consumes:
+      - application/json
+      description: 更改用户权限role
+      responses: {}
+      summary: 更改用户权限
+      tags:
+      - team
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: 接收user信息然后创建并返回到客户端反馈
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: new user创建成功
+          schema:
+            type: string
+        "500":
+          description: 'error": err.Error()}'
+          schema:
+            type: string
+      summary: 创建用户
+      tags:
+      - user
+  /users/appoint/{username}:
+    get:
+      consumes:
+      - application/json
+      description: 查询用户预约的比赛详情
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UserAppoint'
+            type: array
+      summary: 查询用户预约
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: 接收user预约信息然后创建并返回到客户端反馈
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: new appoint创建成功
+          schema:
+            type: string
+        "500":
+          description: 'error": err.Error()}'
+          schema:
+            type: string
+      summary: 创建用户预约
+      tags:
+      - appoint
+swagger: "2.0"
